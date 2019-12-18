@@ -1,0 +1,44 @@
+www.demo.com demo.com {
+    root /var/www/html
+    fastcgi / 127.0.0.1:9000 php
+    on startup php-fpm7
+    # WS处理代理
+    proxy /websocket v2ray:10086 {
+        websocket
+        header_upstream -Origin
+    }
+    # 处理laravel
+    rewrite / {
+       if {uri} not_starts_with /websocket 
+       to {uri} {uri}/ /index.php?{query}
+    }
+    #log stdout
+    #errors stderr
+}
+
+www.demo2.com demo2.com {
+    root /var/www/html
+    fastcgi / 127.0.0.1:9000 php
+    on startup php-fpm7
+    # H2处理代理
+    proxy /http2 https://v2ray:10000 {
+        insecure_skip_verify
+        header_upstream X-Forwarded-Proto "https"
+        header_upstream Host "demo2.com"
+    }
+
+    header / {
+        Strict-Transport-Security "max-age=31536000;"
+        X-XSS-Protection "1; mode=block"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+    }
+
+    # 处理laravel
+    rewrite / {
+       if {uri} not_starts_with /http2 
+       to {uri} {uri}/ /index.php?{query}
+    }
+    #log stdout
+    #errors stderr
+}

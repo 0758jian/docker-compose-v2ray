@@ -1,0 +1,30 @@
+version: "3.7"
+services:
+  v2ray:
+      image: v2ray/official:latest
+      restart: always
+      volumes:
+        - /etc/localtime:/etc/localtime
+        - ./v2ray/conf:/etc/v2ray
+        - ./v2ray/log:/var/log/v2ray
+        # H2时要在v2ray config配置证书
+        - ./caddy/certify:/root/.caddy
+      ports:
+        # wesocket 10086 http/2 10000
+        - 10086:10086
+        - 10000:10000
+  caddy:
+    image: abiosoft/caddy:php
+    restart: always
+    working_dir: /var/www/html
+    volumes:
+          - /etc/localtime:/etc/localtime
+          - ./wwwroot:/var/www/html
+          - ./caddy/conf/Caddyfile:/etc/Caddyfile
+          - ./caddy/log/caddy.log:/var/log/caddy.log
+          - ./caddy/certify:/root/.caddy
+    depends_on:
+      - v2ray
+    ports:
+      - 80:80
+      - 443:443

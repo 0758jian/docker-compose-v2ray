@@ -1,0 +1,114 @@
+{
+  "stats": {},
+  "api": {
+    "tag": "api",
+    "services": [
+      "StatsService"
+    ]
+  },
+  "policy": {
+    "levels": {
+      "0": {
+        "statsUserUplink": true,
+        "statsUserDownlink": true
+      },
+      "1": {
+        "statsUserUplink": true,
+        "statsUserDownlink": true
+      }
+    },
+    "system": {
+      "statsInboundUplink": true,
+      "statsInboundDownlink": true
+    }
+  },
+  "inbounds": [
+    {
+      "tag": "tls",
+      "port": 10086,
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "email": "jian@v2ray.com",
+            "id": "4e35671c-f076-457d-a410-891a133c34ea",
+            "level": 0,
+            "alterId": 10
+          },
+          {
+            "email": "xue@v2ray.com",
+            "id": "a34b6668-93d5-7fce-c7f7-3877bb7fd723",
+            "level": 1,
+            "alterId": 10
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+          "path": "/websocket"
+        }
+      }
+    },
+    {
+    "tag": "http2",
+    "port": 10000,
+    "protocol": "vmess",
+    "settings": {
+      "clients": [
+        {
+          "email": "yuqi@v2ray.com",
+          "id": "8f9c704b-2cdc-4aae-b7f7-bd639f522016",
+          "level": 1,
+          "alterId": 10
+        }
+      ]
+    },
+    "streamSettings": {
+      "network": "h2",
+      "security": "tls",
+      "httpSettings": {
+        "path": "/http2",
+        "host": ["demo.com"]
+      },
+      "tlsSettings": {
+        "serverName": "demo.com",
+        "certificates": [
+        {
+          "certificateFile": "/etc/v2ray/v2ray.crt",
+          "keyFile": "/etc/v2ray/v2ray.key"
+        }
+        ]
+      }
+    }
+  },
+    {
+      "port": 17419,
+      "protocol": "dokodemo-door",
+      "settings": {
+        "address": "127.0.0.1"
+      },
+      "tag": "api"
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "settings": {}
+    }
+  ],
+  "routing": {
+    "settings": {
+      "rules": [
+        {
+          "type": "field",
+          "inboundTag": [
+            "api"
+          ],
+          "outboundTag": "api"
+        }
+      ]
+    },
+    "strategy": "rules"
+  }
+}

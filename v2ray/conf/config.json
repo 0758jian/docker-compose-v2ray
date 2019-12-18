@@ -1,0 +1,59 @@
+{
+  "log": {
+    "access": "/var/log/v2ray/access.log",
+    "error": "/var/log/v2ray/error.log",
+    "loglevel": "none"
+  },
+  "inbounds": [
+    {
+      "tag": "tls",
+      "port": 10086,
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "email": "jian@v2ray.com",
+            "id": "4e35671c-f076-457d-a410-891a133c34ea",
+            "level": 0,
+            "alterId": 10
+          },
+          {
+            "email": "xue@v2ray.com",
+            "id": "a34b6668-93d5-7fce-c7f7-3877bb7fd723",
+            "level": 1,
+            "alterId": 10
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+          "path": "/websocket"
+        }
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "settings": {}
+    },
+    {
+      "tag": "blocked",
+      "protocol": "blackhole",
+      "settings": {}
+    }
+  ],
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "type": "field",
+        "ip": [
+          "geoip:private"
+        ],
+        "outboundTag": "blocked"
+      }
+    ]
+  }
+}
