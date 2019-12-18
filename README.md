@@ -40,6 +40,7 @@
 ```
 ### 五、启动项目,websocket和http/2的配置请详看.example里的内容
 ```
+    git clone https://github.com/0758jian/docker-caddy-proxy.git v2ray
     cd v2ray
     sudo docker-compose up -d
     sudo docker-compose ps
@@ -51,6 +52,14 @@
     cd wwwroot
     git clone https://github.com/librespeed/speedtest.git speedtest
 ```
+- BBR加速,看自己喜欢选择，我选择的是1、5、10
+```
+    sudo yum -y install wget
+    sudo wget -N --no-check-certificate "https://raw.githubusercontent.com/chiakge/Linux-NetSpeed/master/tcp.sh"
+    sudo chmod +x tcp.sh
+    sudo ./tcp.sh
+```
+
 ### 注意事项
 - 服务器只开通80 443 22(SSH建议改为其他端口登陆)
 - caddy 顺带了php这样可以运行php的程序，可以自改修个mysql数据库进去，装啥都行了
@@ -62,3 +71,5 @@
   ln -s /root/.caddy/acme/acme-v02.api.letsencrypt.org/sites/yourdomain/yourdomain.crt /etc/v2ray/yourdomain.crt
   ln -s /root/.caddy/acme/acme-v02.api.letsencrypt.org/sites/yourdomain/yourdomain.com.key /etc/v2ray/yourdomain.key
 ```
+
+- TG技术群：https://t.me/joinchat/LqcgBEUJ7133BFBEv67NCw

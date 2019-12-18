@@ -10,7 +10,7 @@ services:
         # H2时要在v2ray config配置证书
         - ./caddy/certify:/root/.caddy
       ports:
-        # wesocket 10086 http/2 10000
+        # websocket 10086 http/2 10000
         - 10086:10086
         - 10000:10000
   caddy:
