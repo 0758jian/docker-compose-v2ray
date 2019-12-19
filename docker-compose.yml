@@ -2,6 +2,7 @@ version: "3.7"
 services:
   v2ray:
       image: v2ray/official:latest
+      container_name: ds-v2ray
       restart: always
       volumes:
         - /etc/localtime:/etc/localtime
@@ -9,13 +10,16 @@ services:
         - ./v2ray/log:/var/log/v2ray
         # H2时要在v2ray config配置证书
         - ./caddy/certify:/root/.caddy
-      ports:
+      expose:
+        # 内部容器使用只需暴露端口
+        # 不需要映射到宿主机端口
         # websocket 10086 http/2 10000
-        - 10086:10086
-        - 10000:10000
+        - "10086"
+        - "10000"
   caddy:
     image: abiosoft/caddy:php
     restart: always
+    container_name: ds-caddy
     working_dir: /var/www/html
     volumes:
           - /etc/localtime:/etc/localtime
@@ -26,5 +30,5 @@ services:
     depends_on:
       - v2ray
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
