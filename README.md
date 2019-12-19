@@ -1,5 +1,5 @@
-﻿- 以google cloud 的 CentOS7 为例，有个域名
-### 一、确实认时间,时间不对就复制上海区
+﻿- 以google cloud 的 CentOS7 为例，前提你有VPS和有个域名绑定好IP
+### 一、确认时间,不对就复制上海区
 ```
     date -R
     sudo cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime    
@@ -20,7 +20,7 @@
 ### 三、安装git、docker 设置开机启动docker
 ```
     sudo yum makecache
-    sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+    sudo yum -y install yum-utils device-mapper-persistent-data lvm2
     sudo yum -y install git
     sudo yum -y install docker-ce
     sudo systemctl enable docker
@@ -69,7 +69,7 @@
 - 使用v2ray的h2协议，要进入v2ray容器把证书link过来,注意你的域名
 ```
   ln -s /root/.caddy/acme/acme-v02.api.letsencrypt.org/sites/yourdomain/yourdomain.crt /etc/v2ray/yourdomain.crt
-  ln -s /root/.caddy/acme/acme-v02.api.letsencrypt.org/sites/yourdomain/yourdomain.com.key /etc/v2ray/yourdomain.key
+  ln -s /root/.caddy/acme/acme-v02.api.letsencrypt.org/sites/yourdomain/yourdomain.key /etc/v2ray/yourdomain.key
 ```
 
 - TG技术群：https://t.me/joinchat/LqcgBEUJ7133BFBEv67NCw
