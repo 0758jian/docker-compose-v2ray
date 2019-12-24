@@ -40,7 +40,7 @@
 ```
 ### 五、启动项目,websocket和http/2的配置请详看.example里的内容
 ```
-    git clone https://github.com/0758jian/docker-caddy-proxy.git v2ray
+    git clone https://github.com/0758jian/docker-compose-v2ray.git v2ray
     cd v2ray
     sudo docker-compose up -d
     sudo docker-compose ps
