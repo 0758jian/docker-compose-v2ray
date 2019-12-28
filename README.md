@@ -6,6 +6,7 @@
 ```
 ### 二、添加git、docker仓库
 ```
+    sudo yum -y install yum-utils device-mapper-persistent-data lvm2
     sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
     sudo vi /etc/yum.repos.d/wandisco-git.repo
 ```    
@@ -20,7 +21,6 @@
 ### 三、安装git、docker 设置开机启动docker
 ```
     sudo yum makecache
-    sudo yum -y install yum-utils device-mapper-persistent-data lvm2
     sudo yum -y install git
     sudo yum -y install docker-ce
     sudo systemctl enable docker
@@ -72,4 +72,4 @@
   ln -s /root/.caddy/acme/acme-v02.api.letsencrypt.org/sites/yourdomain/yourdomain.key /etc/v2ray/yourdomain.key
 ```
 
-- TG技术群：https://t.me/joinchat/LqcgBEUJ7133BFBEv67NCw
+- TG技术群：https://t.me/ousiqi
