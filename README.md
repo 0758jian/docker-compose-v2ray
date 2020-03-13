@@ -5,7 +5,7 @@
 ```
     git clone -b nginx https://github.com/0758jian/docker-compose-v2ray.git v2ray
 ```
-### 三、先启用acme下载证书
+### 三、先启用acme下载证书 [acme使用说明](https://hub.docker.com/r/neilpang/acme.sh)
 ```
     cd v2ray
     sudo docker-compose up -d acme

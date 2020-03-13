@@ -46,4 +46,4 @@ services:
     command: daemon
     volumes:
       - /etc/localtime:/etc/localtime
-      - ./acme:/acme.sh
+      - ./wwwroot:/var/www/html      
