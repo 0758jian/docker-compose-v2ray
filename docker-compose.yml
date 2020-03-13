@@ -1,34 +1,49 @@
 version: "3.7"
 services:
   v2ray:
-      image: v2ray/official:latest
-      container_name: ds-v2ray
-      restart: always
-      volumes:
-        - /etc/localtime:/etc/localtime
-        - ./v2ray/conf:/etc/v2ray
-        - ./v2ray/log:/var/log/v2ray
-        # H2时要在v2ray config配置证书
-        - ./caddy/certify:/root/.caddy
-      expose:
-        # 内部容器使用只需暴露端口
-        # 不需要映射到宿主机端口
-        # websocket 10086 http/2 10000
-        - "10086"
-        - "10000"
-  caddy:
-    image: abiosoft/caddy:php
+    image: v2ray/official:latest
+    container_name: ds-v2ray
     restart: always
-    container_name: ds-caddy
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ./v2ray/conf:/etc/v2ray
+      - ./v2ray/log:/var/log/v2ray
+      # H2时要在v2ray config配置证书
+      - ./acme:/acme
+    expose:
+      # 内部容器使用只需暴露端口
+      # 不需要映射到宿主机端口
+      # websocket 10086 http/2 10000
+      - "10086"
+      - "10000"
+  web:
+    image: nginx:1.17.6-alpine
+    restart: always
+    container_name: ds-nginx
     working_dir: /var/www/html
     volumes:
-          - /etc/localtime:/etc/localtime
-          - ./wwwroot:/var/www/html
-          - ./caddy/conf/Caddyfile:/etc/Caddyfile
-          - ./caddy/log/caddy.log:/var/log/caddy.log
-          - ./caddy/certify:/root/.caddy
+      - /etc/localtime:/etc/localtime
+      - ./wwwroot:/var/www/html
+      - ./nginx:/etc/nginx/conf.d
+      - ./acme:/acme
     depends_on:
-      - v2ray
+      - php
     ports:
       - "80:80"
       - "443:443"
+  # 适用于php程序
+  php:
+    image: php:7-fpm
+    restart: always
+    container_name: ds-php
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ./wwwroot:/var/www/html
+  acme: 
+    image: neilpang/acme.sh    
+    restart: always
+    container_name: ds-acme
+    command: daemon
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ./acme:/acme.sh
