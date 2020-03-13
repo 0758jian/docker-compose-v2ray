@@ -28,6 +28,7 @@ services:
       - ./acme:/acme
     depends_on:
       - php
+      - v2ray
     ports:
       - "80:80"
       - "443:443"
@@ -46,4 +47,5 @@ services:
     command: daemon
     volumes:
       - /etc/localtime:/etc/localtime
-      - ./wwwroot:/var/www/html      
+      - ./wwwroot:/var/www/html
+      - ./acme:/acme.sh      

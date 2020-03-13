@@ -14,19 +14,21 @@
 ```
     sudo docker-compose exec acme --issue -d yourdomain --dns --yes-I-know-dns-manual-mode-enough-go-ahead-please
 ```
-- 会弹出txt值和content值，复制去域名服务商添加txt记录
-- 验证txt是否生效 windows的cmd nslookup查,成功会返回内容值看是否对应，你也可以linux命令查
-- yourdomain是你的域名
+- 会弹出Domain(_acme-challenge.yourdomain) _acme-challenge是指TXT记录的name，TXT value值是指TXT记录的content，复制去域名服务商添加txt记录
+- 验证txt是否生效 成功会返回内容值看是否对应
 ```
-    nslookup -qt=txt yourdomain
+    sudo yum install -y bind-utils
+    dig -t txt _acme-challenge.yourdomain
 ```
-- 上面txt解析成功后，重申域名证书，yourdomain是你的域名
+- 重点要等上面txt解析成功后，重申域名证书，yourdomain是你的域名
 ```
     sudo docker-compose exec acme --renew -d yourdomain --yes-I-know-dns-manual-mode-enough-go-ahead-please
 ```
-### 四、修改trojan/config.json里的证书路径，里面的yourdomain是你的域名，并启动服务
+### 四、修改nginx里的conf证书路径，里面的yourdomain是你的域名，并重启服务
 ```
-
+    sudo docker-compose down
+    sudo docker-compose up -d
+```
 ### 注意事项
 - 服务器只开通80 443 22(SSH建议改为其他端口登陆)
 - 查看容器日志 docker-compose logs v2ray
