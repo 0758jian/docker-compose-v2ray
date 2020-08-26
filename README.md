@@ -45,15 +45,9 @@
     sudo docker-compose up -d
     sudo docker-compose ps
 ```
-### [可选] 下载个测速代码到wwwroot目录
-- 注意caddy配置多个站点
-- cp个喜欢的html为index.html
-```
-    cd wwwroot
-    git clone https://github.com/librespeed/speedtest.git speedtest
-```
 - BBR加速,看自己喜欢选择，我选择的是1、5、10
 ```
+    sudo grub2-mkconfig -o /boot/grub2/grub.cfg
     sudo yum -y install wget
     sudo wget -N --no-check-certificate "https://raw.githubusercontent.com/chiakge/Linux-NetSpeed/master/tcp.sh"
     sudo chmod +x tcp.sh
@@ -62,14 +56,14 @@
 
 ### 注意事项
 - 服务器只开通80 443 22(SSH建议改为其他端口登陆)
-- caddy 顺带了php这样可以运行php的程序，可以自改修个mysql数据库进去，装啥都行了
+- 用speedtest官方容器来做个测整站
 - caddy和v2ray的配置参数，请修改为不同不要用example的
 - 查看容器日志 docker-compose logs caddy
 - 重启某个容器 docker-compose restart caddy
 - 使用v2ray的h2协议，要进入v2ray容器把证书link过来,注意你的域名
 ```
-  ln -s /root/.caddy/acme/acme-v02.api.letsencrypt.org/sites/yourdomain/yourdomain.crt /etc/v2ray/yourdomain.crt
-  ln -s /root/.caddy/acme/acme-v02.api.letsencrypt.org/sites/yourdomain/yourdomain.key /etc/v2ray/yourdomain.key
+  ln -s /data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/yourdomain/yourdomain.crt /etc/v2ray/yourdomain.crt
+  ln -s /data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/yourdomain/yourdomain.key /etc/v2ray/yourdomain.key
 ```
 
 - TG技术群：https://t.me/ousiqi

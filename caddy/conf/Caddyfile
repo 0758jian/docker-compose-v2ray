@@ -1,4 +1,6 @@
-0.0.0.0:80
-browse
-fastcgi / 127.0.0.1:9000 php # php variant only
-on startup php-fpm7 # php variant only
+demo.com {
+    reverse_proxy /websocket v2ray:10086 {
+        header_up -Origin
+    }
+    reverse_proxy / speedtest:80
+}

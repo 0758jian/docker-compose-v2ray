@@ -1,34 +1,42 @@
 version: "3.7"
 services:
   v2ray:
-      image: v2ray/official:latest
-      container_name: ds-v2ray
-      restart: always
-      volumes:
-        - /etc/localtime:/etc/localtime
-        - ./v2ray/conf:/etc/v2ray
-        - ./v2ray/log:/var/log/v2ray
-        # H2时要在v2ray config配置证书
-        - ./caddy/certify:/root/.caddy
-      expose:
-        # 内部容器使用只需暴露端口
-        # 不需要映射到宿主机端口
-        # websocket 10086 http/2 10000
-        - "10086"
-        - "10000"
+    image: v2ray/official:latest
+    container_name: ds-v2ray
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ./v2ray/conf:/etc/v2ray
+      - ./v2ray/log:/var/log/v2ray
+      # H2时要在v2ray config配置证书
+      - ./caddy/data:/data
+    expose:
+      # 内部容器使用只需暴露端口
+      # 不需要映射到宿主机端口
+      # websocket 10086 http/2 10000
+      - "10086"
+      - "10000"
+  speedtest:
+    image: adolfintel/speedtest
+    restart: always
+    container_name: ds-speedtest
+    environment:
+      - MODE=standalone
+    volumes:
+      - /etc/localtime:/etc/localtime
+    ports:
+      - "81:80"
   caddy:
-    image: abiosoft/caddy:php
+    image: caddy
     restart: always
     container_name: ds-caddy
-    working_dir: /var/www/html
+    working_dir: /var/www/html    
     volumes:
-          - /etc/localtime:/etc/localtime
-          - ./wwwroot:/var/www/html
-          - ./caddy/conf/Caddyfile:/etc/Caddyfile
-          - ./caddy/log/caddy.log:/var/log/caddy.log
-          - ./caddy/certify:/root/.caddy
-    depends_on:
-      - v2ray
+      - /etc/localtime:/etc/localtime
+      - ./wwwroot:/var/www/html
+      - ./caddy/conf/Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/data:/data
+      - ./caddy/config:/config
     ports:
       - "80:80"
       - "443:443"
