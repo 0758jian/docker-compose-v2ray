@@ -2,5 +2,7 @@ demo.com {
     reverse_proxy /websocket v2fly:10086 {
         header_up -Origin
     }
-    reverse_proxy / speedtest:80
+    reverse_proxy * http://speedtest:80 {
+        header_up -Origin
+    }
 }
